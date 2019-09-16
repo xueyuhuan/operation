@@ -1,0 +1,26 @@
+/*
+Element ui
+*/
+//解决由于电脑显示的缩放引起的表格表头边框与内容边框产生错位
+.el-table th.gutter{
+  display: table-cell!important;
+}
+.el-popover{
+  font-size: 12px;
+}
+.el-pagination{
+  text-align: right;
+  margin-top: 10px;
+}
+.el-dialog{
+  @media only screen and (max-width:767px) {
+    width: 90%;
+  }
+}
+.el-form + .el-button-group{
+  display: flex;
+  justify-content: flex-end;
+}
+.el-button-group + .el-table{
+  margin-top: 10px;
+}

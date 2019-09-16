@@ -1,29 +1,21 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div id="app">
+        <router-view v-if="$route.meta.type==='login'"/>
+        <layout v-else></layout>
     </div>
-    <router-view/>
-  </div>
 </template>
 
 <style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
+    #app{
+        height: 100%;
+        width: 100%;
+        overflow-x: hidden;
+        background-color: #f2f2f2;
     }
-  }
-}
 </style>
+<script>
+    import Layout from "./views/Layout";
+    export default {
+        components: {Layout}
+    }
+</script>
