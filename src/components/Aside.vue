@@ -5,8 +5,8 @@
                  background-color="#454353" text-color="#ccc" active-text-color="#ffd04b">
             <el-menu-item index="/home">控制台</el-menu-item>
             <el-menu-item index="/user/list">用户</el-menu-item>
-            <el-menu-item index="/2">控制台</el-menu-item>
-            <el-menu-item index="/3">控制台</el-menu-item>
+            <el-menu-item index="/shop/list">店铺</el-menu-item>
+            <el-menu-item index="/return/list">退货</el-menu-item>
         </el-menu>
     </div>
 </template>

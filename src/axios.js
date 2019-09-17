@@ -47,12 +47,12 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
     res => {
         loading.close();
-        if(res.data.success !=="0000") {
-            Vue.prototype.$message.error(res.data.message);
-        }
         if(res.data.message==='未登录,认证失败'){
             router.push({path: '/login'});
             return false
+        }
+        if(res.data.success !=="0000") {
+            Vue.prototype.$message.error(res.data.message);
         }
         return res.data;
     },
