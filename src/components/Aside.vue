@@ -3,7 +3,10 @@
         <div class="logo"><img src="../assets/logo.png" alt=""/>alpha</div>
         <el-menu router :default-active="$route.path"
                  background-color="#454353" text-color="#ccc" active-text-color="#ffd04b">
-            <el-menu-item index="/">控制台</el-menu-item>
+            <el-menu-item index="/home">控制台</el-menu-item>
+            <el-menu-item index="/user/list">用户</el-menu-item>
+            <el-menu-item index="/2">控制台</el-menu-item>
+            <el-menu-item index="/3">控制台</el-menu-item>
         </el-menu>
     </div>
 </template>

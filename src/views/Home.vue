@@ -1,6 +1,6 @@
 <template>
     <div class="home">
-
+        <el-card>xxxx</el-card>
     </div>
 </template>
 

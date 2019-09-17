@@ -1,7 +1,7 @@
 <template>
     <div id="app">
-        <router-view v-if="$route.meta.type==='login'"/>
-        <layout v-else></layout>
+        <router-view v-if="$route.meta.type==='login'"></router-view>
+        <layout v-else><router-view/></layout>
     </div>
 </template>
 

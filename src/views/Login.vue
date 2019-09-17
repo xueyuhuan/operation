@@ -30,7 +30,7 @@
             return{
                 login:{
                     name:'admin',
-                    password:'000000',
+                    password:'123456',
                 },
                 show_num:[],
                 code:'',
@@ -106,10 +106,10 @@
                     this.$message.error("请输入密码");
                     return false;
                 }
-                if(this.code!==this.show_num.join('')){
-                    this.$message.error("验证码错误");
-                    return false;
-                }
+                // if(this.code!==this.show_num.join('')){
+                //     this.$message.error("验证码错误");
+                //     return false;
+                // }
                 this.$ajax.post('/user/login',this.login)
                     .then(res=>{
                         if(res.success==='0000'){

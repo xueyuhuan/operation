@@ -7,10 +7,10 @@
         <ul class="right">
             <li class="hidden-xs-only"><i class="fas" :class="[fullscreen?'fa-compress-arrows-alt':'fa-compress']" @click="handleFullScreen()"></i></li>
             <li><el-dropdown>
-                <span>用户名<i class="el-icon-arrow-down el-icon--right"></i></span>
+                <span>{{user.role.nameZh}}<i class="el-icon-arrow-down el-icon--right"></i></span>
                 <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item><router-link to="/account/user/info">个人资料</router-link></el-dropdown-item>
-                    <el-dropdown-item><router-link to="/account/user/password">修改密码</router-link></el-dropdown-item>
+<!--                    <el-dropdown-item><router-link to="/account/user/info">个人资料</router-link></el-dropdown-item>-->
+                    <el-dropdown-item><router-link to="/user/password">修改密码</router-link></el-dropdown-item>
                     <el-dropdown-item divided><span @click="logout">退出登录</span></el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown></li>
@@ -27,8 +27,8 @@
             }
         },
         computed:{
-            token(){
-                return this.$store.state.token
+            user(){
+                return this.$store.state.user
             }
         },
         methods:{

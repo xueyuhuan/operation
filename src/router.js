@@ -7,7 +7,7 @@ Vue.use(Router)
 export default new Router({
     routes: [
         {
-            path: '/',
+            path: '/home',
             name: 'home',
             component: Home
         },
@@ -18,6 +18,14 @@ export default new Router({
             meta:{
                 type:'login',
             }
+        },
+        {
+            path: '/user/list',
+            component: () => import(/* webpackChunkName: "about" */ './views/user/list.vue'),
+        },
+        {
+            path: '/user/password',
+            component: () => import(/* webpackChunkName: "about" */ './views/user/password.vue'),
         }
     ]
 })

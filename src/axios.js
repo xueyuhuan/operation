@@ -50,7 +50,6 @@ instance.interceptors.response.use(
         if(res.data.success !=="0000") {
             Vue.prototype.$message.error(res.data.message);
         }
-        else Vue.prototype.$message.success(res.data.message);
         if(res.data.message==='未登录,认证失败'){
             router.push({path: '/login'});
             return false
