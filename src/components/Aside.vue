@@ -9,6 +9,7 @@
             <el-menu-item index="/shop/list">店铺</el-menu-item>
             <el-menu-item index="/shop/return/rate">退货率</el-menu-item>
             <el-menu-item index="/return/list">退货单</el-menu-item>
+            <el-menu-item index="/money/list">业绩统计</el-menu-item>
         </el-menu>
     </div>
 </template>

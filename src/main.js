@@ -16,7 +16,7 @@ Vue.config.productionTip = false;
 
 Vue.prototype.$ajax=axios;
 Vue.prototype.$echarts = echats;
-Vue.use(ElementUI);
+Vue.use(ElementUI, { size: 'small'});
 
 new Vue({
   router,

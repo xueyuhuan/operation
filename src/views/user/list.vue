@@ -3,7 +3,6 @@
         <el-card>
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item to="/">主页</el-breadcrumb-item>
-                <el-breadcrumb-item>用户</el-breadcrumb-item>
                 <el-breadcrumb-item>所有用户</el-breadcrumb-item>
             </el-breadcrumb>
         </el-card>

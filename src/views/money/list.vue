@@ -1,14 +1,13 @@
 <template>
-    <div class="up-to-date">
+    <div class="money">
         <el-card>
-            <el-breadcrumb separator="/">
-                <el-breadcrumb-item to="/">主页</el-breadcrumb-item>
-                <el-breadcrumb-item>上新</el-breadcrumb-item>
-            </el-breadcrumb>
-        </el-card>
-        <el-card :body-style="{ 'padding': '0px' }">
-            <header slot="header">每周个人上新数</header>
-            <div id="line" class="chart"></div>
+            <div class="flex">
+                <el-breadcrumb separator="/">
+                    <el-breadcrumb-item to="/">主页</el-breadcrumb-item>
+                    <el-breadcrumb-item>业绩统计</el-breadcrumb-item>
+                </el-breadcrumb>
+                <el-button type="primary" round plain size="medium">总销量：${{this.chart.sum}}</el-button>
+            </div>
         </el-card>
         <el-row>
             <el-col :span="8">
@@ -17,9 +16,13 @@
                         <el-button type="primary" icon="fas fa-plus" @click="add()">&nbsp;新增</el-button>
                     </el-button-group>
                     <el-table border stripe :data="tableData">
-                        <el-table-column label="时间" prop="date" sortable></el-table-column>
                         <el-table-column label="操作人" prop="userName"></el-table-column>
-                        <el-table-column label="上新数" prop="updateNum"></el-table-column>
+                        <el-table-column label="时间" prop="date" sortable></el-table-column>
+                        <el-table-column label="销量" prop="money">
+                            <template slot-scope="scope">
+                                ${{scope.row.money}}
+                            </template>
+                        </el-table-column>
                         <el-table-column fixed="right" label="操作" width="84px">
                             <template slot-scope="scope">
                                 <el-button @click="handleClickUpdate(scope.row)" type="text" size="small">编辑</el-button>
@@ -39,12 +42,12 @@
             </el-col>
             <el-col :span="16">
                 <el-card :body-style="{ 'padding': '0px' }">
-                    <header slot="header">周上新数量分析</header>
-                    <div id="bar-date" class="chart"></div>
+                    <header slot="header">2019年运营个体累计</header>
+                    <div id="bar-people" class="chart"></div>
                 </el-card>
                 <el-card :body-style="{ 'padding': '0px' }">
-                    <header slot="header">个人上新总数</header>
-                    <div id="bar-people" class="chart"></div>
+                    <header slot="header">2019年运营数据</header>
+                    <div id="bar-date" class="chart"></div>
                 </el-card>
             </el-col>
         </el-row>
@@ -52,8 +55,8 @@
                 :title="dialogName"
                 :visible.sync="dialogVisible">
             <el-form ref="dialog" :model="dialog" :rules="dialogRules" label-width="135px">
-                <el-form-item label="上新数" prop="updateNum">
-                    <el-input v-model="dialog.updateNum"></el-input>
+                <el-form-item label="销量" prop="money">
+                    <el-input v-model="dialog.money"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer">
@@ -79,16 +82,13 @@
                 dialogType:'',
                 dialogName:'',
                 dialog:{
-                    updateNum:null,// 上新数
+                    money:null,// 销售额
                 },
                 dialogRules:{
-                    updateNum:{ required: true, message: '请输入', trigger: 'blur' },// 上新数
+                    money:{ required: true, message: '请输入', trigger: 'blur' },// 销售额
                 },
                 chart:{
-                    line:{
-                        x:[],
-                        y:[],
-                    },
+                    sum:null,
                     barDate:{
                         x:[],
                         y:[],
@@ -114,7 +114,7 @@
         methods: {
             //查询
             searchData(){
-                this.$ajax.post("/userUpdateNum/page?pageSize="+this.search.pageSize+'&pageNo='+this.search.pageNo,{})
+                this.$ajax.post("/userMoney/page?pageSize="+this.search.pageSize+'&pageNo='+this.search.pageNo,{})
                     .then(res=>{
                         if(res.success==='0000'){
                             this.tableData=res.data.list;
@@ -141,7 +141,7 @@
             submitForm() {
                 this.$refs['dialog'].validate((valid) => {
                     if (valid) {
-                        this.$ajax.post('/userUpdateNum/'+this.dialogType,this.dialog)
+                        this.$ajax.post('/userMoney/'+this.dialogType,this.dialog)
                             .then(res=>{
                                 if(res.success==='0000'){
                                     this.searchData();
@@ -165,7 +165,7 @@
                 this.update();
             },
             handleClickDel(row){
-                this.$ajax.post('/userUpdateNum/del',row)
+                this.$ajax.post('/userMoney/del',row)
                     .then(res=>{
                         if(res.success==='0000'){
                             this.searchData();
@@ -175,52 +175,28 @@
             },
             //图表
             getChart(){
-                this.$ajax.post("/userUpdateNum/chart")
+                this.$ajax.post("/userMoney/chart")
                     .then(res=>{
                         if(res.success==='0000'){
-                            this.chart.line.x=res.data.weekVO.dateList;
-                            this.chart.line.y=res.data.weekVO.userNameNumList.map(v=>{
-                                return Object.assign({name:v.userName,data:v.num},{type:'line'})
-                            });
-                            console.log(this.chart.line)
-                            this.chart.barDate.x=res.data.listUnWSum.map(v=>{
+                            this.chart.sum=res.data.sumMoney;
+                            this.chart.barDate.x=res.data.weekMoenyList.map(v=>{
                                 return {value:v.date}
                             });
-                            this.chart.barDate.y=res.data.listUnWSum.map(v=>{
-                                return {value:v.num}
+                            this.chart.barDate.y=res.data.weekMoenyList.map(v=>{
+                                return {value:v.money}
                             });
-                            this.chart.barPeople.x=res.data.listName.map(v=>{
-                                return {value:v.name}
+                            this.chart.barPeople.x=res.data.userMoenyList.map(v=>{
+                                return {value:v.userName}
                             });
-                            this.chart.barPeople.y=res.data.listName.map(v=>{
-                                return {value:v.num}
+                            this.chart.barPeople.y=res.data.userMoenyList.map(v=>{
+                                return {value:v.money}
                             });
                         }
                     })
                     .then(()=>{
-                        this.drawLine();
                         this.drawBarDate();
                         this.drawBarPeople();
                     })
-            },
-            drawLine(){
-                let chart = this.$echarts.init(document.getElementById('line'));
-                let option = {
-                    color:this.color,
-                    tooltip : {
-                        trigger: 'axis',
-                    },
-                    legend:{},
-                    xAxis: {
-                        type: 'category',
-                        data: this.chart.line.x
-                    },
-                    yAxis: {
-                        type: 'value'
-                    },
-                    series: this.chart.line.y
-                };
-                chart.setOption(option);
             },
             drawBarDate(){
                 let chart = this.$echarts.init(document.getElementById('bar-date'));
@@ -269,7 +245,10 @@
 </script>
 
 <style lang="scss">
-    .up-to-date{
+    .money{
+        .flex{
+            @include flex(space-between)
+        }
         .chart{
             height: 300px;
             width: 100%;

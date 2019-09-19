@@ -48,5 +48,9 @@ export default new Router({
             path: '/return/list',
             component: () => import(/* webpackChunkName: "about" */ './views/return/list.vue'),
         },
+        {
+            path: '/money/list',
+            component: () => import(/* webpackChunkName: "about" */ './views/money/list.vue'),
+        },
     ]
 })
