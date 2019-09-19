@@ -4,7 +4,6 @@
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item to="/">主页</el-breadcrumb-item>
                 <el-breadcrumb-item>店铺</el-breadcrumb-item>
-                <el-breadcrumb-item>店铺列表</el-breadcrumb-item>
             </el-breadcrumb>
         </el-card>
         <el-card>

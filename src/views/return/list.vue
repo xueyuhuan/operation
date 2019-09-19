@@ -140,8 +140,14 @@
                     use:null,// 平均用户使用
                     shopBrandList:[],// 品牌错误
                     shopMList:[], // 月份 问题
+                    shopMListX:[],
                     shopIssueList:[], // 问题错误
                 }
+            }
+        },
+        computed:{
+            color(){
+                return this.$store.state.color;
             }
         },
         created(){
@@ -230,12 +236,15 @@
                 this.$ajax.post("/shopIssue/chart")
                     .then(res=>{
                         if(res.success==='0000'){
-                            this.chart=res.data;
+                            this.chart=JSON.parse(JSON.stringify(res.data));
                             this.chart.shopBrandList=res.data.shopBrandList.map(v=>{
                                 return {name:v.type, value:v.count}
                             });
                             this.chart.shopMList=res.data.shopMList.map(v=>{
                                 return {name:v.type, value:v.count}
+                            });
+                            this.chart.shopMListX=res.data.shopMList.map(v=>{
+                                return {value:v.type}
                             });
                             this.chart.shopIssueList=res.data.shopIssueList.map(v=>{
                                 return {name:v.type, value:v.count}
@@ -251,6 +260,7 @@
             drawBrand(){
                 let chart = this.$echarts.init(document.getElementById('pie-brand'));
                 let option = {
+                    color:this.color,
                     tooltip : {
                         trigger: 'item',
                         formatter: "{a} <br/>{b} : {c} ({d}%)"
@@ -274,15 +284,19 @@
             drawLine(){
                 let chart = this.$echarts.init(document.getElementById('line'));
                 let option = {
+                    color:this.color,
+                    tooltip : {
+                        trigger: 'item',
+                    },
                     xAxis: {
                         type: 'category',
-                        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                        data: this.chart.shopMListX
                     },
                     yAxis: {
                         type: 'value'
                     },
                     series: [{
-                        data: [820, 932, 901, 934, 1290, 1330, 1320],
+                        data: this.chart.shopMList,
                         type: 'line'
                     }]
                 };
@@ -291,6 +305,7 @@
             drawIssue(){
                 let chart = this.$echarts.init(document.getElementById('pie-issue'));
                 let option = {
+                    color:this.color,
                     tooltip : {
                         trigger: 'item',
                         formatter: "{a} <br/>{b} : {c} ({d}%)"

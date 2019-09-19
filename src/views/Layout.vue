@@ -34,7 +34,7 @@
                 top: 0;
                 left: 220px;
                 right: 0;
-                z-index: 1;
+                z-index: 999;
             }
             .content{
                 padding: 15px;

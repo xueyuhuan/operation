@@ -29,12 +29,20 @@ export default new Router({
             component: () => import(/* webpackChunkName: "about" */ './views/user/list.vue'),
         },
         {
+            path: '/add/list',
+            component: () => import(/* webpackChunkName: "about" */ './views/add/list.vue'),
+        },
+        {
             path: '/user/password',
             component: () => import(/* webpackChunkName: "about" */ './views/user/password.vue'),
         },
         {
             path: '/shop/list',
             component: () => import(/* webpackChunkName: "about" */ './views/shop/list.vue'),
+        },
+        {
+            path: '/shop/return/rate',
+            component: () => import(/* webpackChunkName: "about" */ './views/shop/return-rate.vue'),
         },
         {
             path: '/return/list',
