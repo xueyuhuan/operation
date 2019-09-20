@@ -97,6 +97,11 @@
                         x:[],
                         y:[],
                     },
+                },
+                demo:{
+                    a:[{data:"",value:''},{data:"",value:''}],
+                    b:[{data:"",value:''},{data:"",value:''}],
+                    c:[{data:"",value:''},{data:"",value:''}],
                 }
             }
         },

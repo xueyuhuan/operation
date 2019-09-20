@@ -29,6 +29,10 @@ export default new Router({
             component: () => import(/* webpackChunkName: "about" */ './views/user/list.vue'),
         },
         {
+            path: '/output/list',
+            component: () => import(/* webpackChunkName: "about" */ './views/output/list.vue'),
+        },
+        {
             path: '/add/list',
             component: () => import(/* webpackChunkName: "about" */ './views/add/list.vue'),
         },

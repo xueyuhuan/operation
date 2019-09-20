@@ -13,6 +13,11 @@
             <el-table border stripe :data="tableData">
                 <el-table-column type="index" width="50"></el-table-column>
                 <el-table-column prop="nickname" label="姓名"></el-table-column>
+                <el-table-column prop="operatorScore" label="运营能力"></el-table-column>
+                <el-table-column prop="languageScore" label="语言能力"></el-table-column>
+                <el-table-column prop="savvyScore" label="理解能力"></el-table-column>
+                <el-table-column prop="striveScore" label="工作努力"></el-table-column>
+                <el-table-column prop="luckScore" label="运气"></el-table-column>
                 <el-table-column prop="statusSign" label="状态">
                     <template slot-scope="scope">
                         <el-tag :type="scope.row.status==='0'?'success':'danger'">{{scope.row.statusSign}}</el-tag>
