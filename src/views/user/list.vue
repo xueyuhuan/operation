@@ -7,9 +7,9 @@
             </el-breadcrumb>
         </el-card>
         <el-card>
-<!--            <el-button-group>-->
-<!--                <el-button type="primary" icon="fas fa-plus" @click="dialogVisible = true">&nbsp;新增</el-button>-->
-<!--            </el-button-group>-->
+            <el-button-group>
+                <el-button type="primary" icon="fas fa-plus" @click="add()">&nbsp;新增</el-button>
+            </el-button-group>
             <el-table border stripe :data="tableData">
                 <el-table-column type="index" width="50"></el-table-column>
                 <el-table-column prop="nickname" label="姓名"></el-table-column>
@@ -18,6 +18,7 @@
                 <el-table-column prop="savvyScore" label="理解能力"></el-table-column>
                 <el-table-column prop="striveScore" label="工作努力"></el-table-column>
                 <el-table-column prop="luckScore" label="运气"></el-table-column>
+                <el-table-column prop="sumScore" label="总分"></el-table-column>
                 <el-table-column prop="statusSign" label="状态">
                     <template slot-scope="scope">
                         <el-tag :type="scope.row.status==='0'?'success':'danger'">{{scope.row.statusSign}}</el-tag>
@@ -26,6 +27,7 @@
                 <el-table-column fixed="right" label="操作">
                     <template slot-scope="scope">
                         <el-button @click="handleClick(scope.row)" type="text" size="small">{{scope.row.status==='0'?'冻结':'激活'}}</el-button>
+                        <el-button @click="handleClickScore(scope.row)" type="text" size="small">评分</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -39,28 +41,28 @@
             </el-pagination>
         </el-card>
         <el-dialog
-                title="新增子账户"
+                :title="dialogName"
                 :visible.sync="dialogVisible">
-            <el-form ref="add" :model="add" :rules="addRules" label-width="52px">
-                <el-form-item label="角色" prop="role">
-                    <el-select v-model="add.role" placeholder="请选择">
-                        <el-option v-for="(i,index) in roleList" :key="index"
-                                   :value="i.value" :label="i.label"></el-option>
-                    </el-select>
+            <el-form ref="dialog" :model="dialog" :rules="dialogRules" label-width="135px">
+                <el-form-item prop="operatorScore" label="运营能力">
+                    <el-input v-model="dialog.operatorScore"></el-input>
                 </el-form-item>
-                <el-form-item label="姓名" prop="name">
-                    <el-input v-model="add.name"></el-input>
+                <el-form-item prop="languageScore" label="语言能力">
+                    <el-input v-model="dialog.languageScore"></el-input>
                 </el-form-item>
-                <el-form-item label="邮箱" prop="email">
-                    <el-input v-model="add.email"></el-input>
+                <el-form-item prop="savvyScore" label="理解能力">
+                    <el-input v-model="dialog.savvyScore"></el-input>
                 </el-form-item>
-                <el-form-item label="手机" prop="phone">
-                    <el-input v-model="add.phone"></el-input>
+                <el-form-item prop="striveScore" label="工作努力">
+                    <el-input v-model="dialog.striveScore"></el-input>
+                </el-form-item>
+                <el-form-item prop="luckScore" label="运气">
+                    <el-input v-model="dialog.luckScore"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer">
-                <el-button type="primary" @click="submitForm('add')">确 定</el-button>
-                <el-button @click="resetForm('add')">重置</el-button>
+                <el-button type="primary" @click="submitForm()">确 定</el-button>
+                <el-button @click="resetForm()">重置</el-button>
             </div>
         </el-dialog>
     </div>
@@ -78,35 +80,22 @@
                 total:null,
                 tableData: [],
                 dialogVisible: false,
-                roleList:[
-                    {
-                        value:'供应商管理',
-                        label:'管理',
-                    },
-                    {
-                        value:'供应商销售',
-                        label:'销售',
-                    },
-                    {
-                        value:'供应商财务',
-                        label:'财务',
-                    }
-                ],
-                add:{
-                    email:'',
-                    name:'',
-                    phone:'',
-                    role:'',
+                dialogType:'',
+                dialogName:'',
+                dialog:{
+                    operatorScore:null,//运营
+                    languageScore:null,//语言
+                    savvyScore:null,//理解
+                    striveScore:null,//努力
+                    luckScore:null,//运气
                 },
-                addRules:{
-                    email:[
-                        { required: true, message: '请输入邮箱地址', trigger: 'blur' },
-                        { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
-                    ],
-                    name:{ required: true, message: '请输入姓名', trigger: 'blur' },
-                    phone:{ required: true, message: '请输入手机', trigger: 'blur' },
-                    role:{ required: true, message: '请选择角色', trigger: 'change' },
-                }
+                dialogRules:{
+                    operatorScore:{ required: true, message: '请输入', trigger: 'blur' },//运营
+                    languageScore:{ required: true, message: '请输入', trigger: 'blur' },//语言
+                    savvyScore:{ required: true, message: '请输入', trigger: 'blur' },//理解
+                    striveScore:{ required: true, message: '请输入', trigger: 'blur' },//努力
+                    luckScore:{ required: true, message: '请输入', trigger: 'blur' },//运气
+                },
             }
         },
         created(){
@@ -128,14 +117,27 @@
                 this.searchData();
             },
             //新增
-            submitForm(formName) {
-                this.$refs[formName].validate((valid) => {
+            add(){
+                this.dialogName='新增';
+                this.dialogType='add';
+                this.dialogVisible=true;
+            },
+            //修改
+            update(){
+                this.dialogName='评分';
+                this.dialogType='update';
+                this.dialogVisible=true;
+            },
+            submitForm() {
+                this.$refs['dialog'].validate((valid) => {
                     if (valid) {
-                        this.$ajax.post('/company/user/add',this.add,{headers: {'Content-Type': 'application/x-www-form-urlencoded'}})
+                        let url = this.dialogType==='update'? '/userScore/edit':'/user/sign';
+                        this.$ajax.post(url,this.dialog)
                             .then(res=>{
-                                if(res.code===1){
+                                if(res.success==='0000'){
                                     this.searchData();
-                                    this.$message.success(res.msg);
+
+                                    this.$message.success(res.message);
                                     this.dialogVisible=false;
                                 }
                             })
@@ -148,6 +150,7 @@
             resetForm(formName) {
                 this.$refs[formName].resetFields();
             },
+            //行操作
             //冻结
             handleClick(row){
                 this.$ajax.post("/user/updateByStatus",row)
@@ -157,6 +160,10 @@
                             this.searchData();
                         }
                     })
+            },
+            handleClickScore(row){
+                this.dialog={...row};
+                this.update();
             }
         }
     }

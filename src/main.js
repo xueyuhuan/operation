@@ -6,7 +6,7 @@ import store from './store'
 import axios from './axios'
 import echats from 'echarts'
 
-import 'element-ui/lib/theme-chalk/index.css';
+import './assets/scss/element-variables.scss';
 import 'element-ui/lib/theme-chalk/display.css';
 import '@fortawesome/fontawesome-free/css/all.css';
 import './assets/scss/reset.scss';
