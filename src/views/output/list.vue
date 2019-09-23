@@ -71,7 +71,7 @@
 
 <script>
     export default {
-        name: "output",
+        name: "out-put",
         data() {
             return {
                 userList:[],
@@ -111,7 +111,7 @@
             this.searchData();
         },
         mounted(){
-            // this.getChart();
+            this.getChart();
         },
         methods: {
             getList(){
@@ -187,11 +187,9 @@
                 this.$ajax.post("/output/chart")
                     .then(res=>{
                         if(res.success==='0000'){
-                            this.chart.x=res.data.listUserOutput.map(v=>{
-                                return {value:v.userName}
-                            });
-                            this.chart.y=res.data.listUserOutput.map(v=>{
-                                return Object.assign({value:v.outputList,name:v.userName},{type:'line'})
+                            this.chart.x=res.data.nameList;
+                            this.chart.y=res.data.listDateOutput.map(v=>{
+                                return Object.assign({data:v.outputList,name:v.date},{type:'bar'})
                             });
                             console.log(this.chart)
                         }
@@ -204,9 +202,9 @@
                 let chart = this.$echarts.init(document.getElementById('bar'));
                 let option = {
                     color:this.color,
+                    legend:{},
                     tooltip : {
                         trigger: 'item',
-
                     },
                     xAxis: {
                         type: 'category',

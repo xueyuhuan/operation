@@ -55,7 +55,7 @@
             </el-form>
             <div slot="footer">
                 <el-button type="primary" @click="submitForm()">确 定</el-button>
-                <el-button @click="resetForm()">重置</el-button>
+<!--                <el-button @click="resetForm()">重置</el-button>-->
             </div>
         </el-dialog>
     </div>
@@ -82,8 +82,8 @@
                     returnRate:null,// 退货率
                 },
                 dialogRules:{
-                    date: { required: true, message: '请选择日期', trigger: 'change' },
-                    shopId:{ required: true, message: '请选择', trigger: 'change' },//店铺
+                    date: { required: true, message: '请选择日期', trigger: 'blur' },
+                    shopId:{ required: true, message: '请选择', trigger: 'blur' },//店铺
                     returnRate:{ required: true, message: '请输入', trigger: 'blur' },// 退货率
                 },
                 chart:{
@@ -127,6 +127,7 @@
             },
             //新增
             add(){
+                Object.keys(this.dialog).forEach(key=>this.dialog[key]='');
                 this.dialogName='新增';
                 this.dialogType='add';
                 this.dialogVisible=true;
