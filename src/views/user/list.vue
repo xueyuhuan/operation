@@ -3,7 +3,7 @@
         <el-card>
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item to="/">主页</el-breadcrumb-item>
-                <el-breadcrumb-item>所有用户</el-breadcrumb-item>
+                <el-breadcrumb-item>用户</el-breadcrumb-item>
             </el-breadcrumb>
         </el-card>
         <el-card>
@@ -44,21 +44,37 @@
                 :title="dialogName"
                 :visible.sync="dialogVisible">
             <el-form ref="dialog" :model="dialog" :rules="dialogRules" label-width="135px">
-                <el-form-item prop="operatorScore" label="运营能力">
-                    <el-input v-model="dialog.operatorScore"></el-input>
-                </el-form-item>
-                <el-form-item prop="languageScore" label="语言能力">
-                    <el-input v-model="dialog.languageScore"></el-input>
-                </el-form-item>
-                <el-form-item prop="savvyScore" label="理解能力">
-                    <el-input v-model="dialog.savvyScore"></el-input>
-                </el-form-item>
-                <el-form-item prop="striveScore" label="工作努力">
-                    <el-input v-model="dialog.striveScore"></el-input>
-                </el-form-item>
-                <el-form-item prop="luckScore" label="运气">
-                    <el-input v-model="dialog.luckScore"></el-input>
-                </el-form-item>
+                <template v-if="dialogType==='add'">
+                    <el-form-item label="角色" prop="roleId">
+                        <el-select v-model="dialog.roleId" placeholder="请选择">
+                            <el-option v-for="(i,index) in roleList" :key="index"
+                                       :value="i.k" :label="i.y"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="账号" prop="name">
+                        <el-input v-model="dialog.name"></el-input>
+                    </el-form-item>
+                    <el-form-item label="用户名" prop="nickname">
+                        <el-input v-model="dialog.nickname"></el-input>
+                    </el-form-item>
+                </template>
+                <template v-else>
+                    <el-form-item prop="operatorScore" label="运营能力">
+                        <el-input-number v-model="dialog.operatorScore" :min="0" :max="5"></el-input-number>
+                    </el-form-item>
+                    <el-form-item prop="languageScore" label="语言能力">
+                        <el-input-number v-model="dialog.languageScore" :min="0" :max="5"></el-input-number>
+                    </el-form-item>
+                    <el-form-item prop="savvyScore" label="理解能力">
+                        <el-input-number v-model="dialog.savvyScore" :min="0" :max="5"></el-input-number>
+                    </el-form-item>
+                    <el-form-item prop="striveScore" label="工作努力">
+                        <el-input-number v-model="dialog.striveScore" :min="0" :max="5"></el-input-number>
+                    </el-form-item>
+                    <el-form-item prop="luckScore" label="运气">
+                        <el-input-number v-model="dialog.luckScore" :min="0" :max="5"></el-input-number>
+                    </el-form-item>
+                </template>
             </el-form>
             <div slot="footer">
                 <el-button type="primary" @click="submitForm()">确 定</el-button>
@@ -82,7 +98,11 @@
                 dialogVisible: false,
                 dialogType:'',
                 dialogName:'',
+                roleList:[],
                 dialog:{
+                    roleId:null,//角色
+                    name:null,//账户
+                    nickname:null,//用户名
                     operatorScore:null,//运营
                     languageScore:null,//语言
                     savvyScore:null,//理解
@@ -90,6 +110,9 @@
                     luckScore:null,//运气
                 },
                 dialogRules:{
+                    roleId:{ required: true, message: '请选择', trigger: 'change' },//角色
+                    name:{ required: true, message: '请输入', trigger: 'blur' },//账户
+                    nickname:{ required: true, message: '请输入', trigger: 'blur' },//用户名
                     operatorScore:{ required: true, message: '请输入', trigger: 'blur' },//运营
                     languageScore:{ required: true, message: '请输入', trigger: 'blur' },//语言
                     savvyScore:{ required: true, message: '请输入', trigger: 'blur' },//理解
@@ -100,8 +123,15 @@
         },
         created(){
             this.searchData();
+            this.getList();
         },
         methods: {
+            getList(){
+                this.$ajax.post("/select/role_Select")
+                    .then(res=>{
+                        if(res.success==='0000') this.roleList=res.data;
+                    })
+            },
             //查询
             searchData(){
                 this.$ajax.post("/user/page",this.search,{headers: {'Content-Type': 'application/x-www-form-urlencoded'}})
@@ -118,6 +148,7 @@
             },
             //新增
             add(){
+                Object.keys(this.dialog).forEach(key=>this.dialog[key]='');
                 this.dialogName='新增';
                 this.dialogType='add';
                 this.dialogVisible=true;

@@ -8,9 +8,19 @@
         </el-card>
         <el-card :body-style="{ 'padding': '0px' }">
             <header slot="header">运营产出比</header>
-            <div id="bar-people" class="chart"></div>
+            <div id="bar" class="chart"></div>
         </el-card>
         <el-card>
+            <el-form inline :model="search" size="mini">
+                <el-form-item label="用户名">
+                    <el-select v-model="search.userName" clearable placeholder="用户名" @change="searchData()">
+                        <el-option v-for="i in userList" :key="i.k" :value="i.y"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" icon="el-icon-search" @click="searchData()">查询</el-button>
+                </el-form-item>
+            </el-form>
             <el-button-group>
                 <el-button type="primary" icon="fas fa-plus" @click="add()">&nbsp;新增</el-button>
             </el-button-group>
@@ -61,10 +71,12 @@
 
 <script>
     export default {
-        name: "list",
+        name: "output",
         data() {
             return {
+                userList:[],
                 search: {
+                    userName:null,
                     pageSize:10,
                     pageNo:1,
                 },
@@ -84,15 +96,8 @@
                     userName:{ required: true, message: '请输入', trigger: 'blur' },// 人员
                 },
                 chart:{
-                    sum:null,
-                    barDate:{
-                        x:[],
-                        y:[],
-                    },
-                    barPeople:{
-                        x:[],
-                        y:[],
-                    },
+                    x:[],
+                    y:[],
                 }
             }
         },
@@ -102,15 +107,22 @@
             }
         },
         created(){
+            this.getList();
             this.searchData();
         },
         mounted(){
             // this.getChart();
         },
         methods: {
+            getList(){
+                this.$ajax.post("/select/user_Select")
+                    .then(res=>{
+                        if(res.success==='0000') this.userList=res.data;
+                    })
+            },
             //查询
             searchData(){
-                this.$ajax.post("/output/page?pageSize="+this.search.pageSize+'&pageNo='+this.search.pageNo,{})
+                this.$ajax.post("/output/page?pageSize="+this.search.pageSize+'&pageNo='+this.search.pageNo,this.search)
                     .then(res=>{
                         if(res.success==='0000'){
                             this.tableData=res.data.list;
@@ -165,6 +177,7 @@
                     .then(res=>{
                         if(res.success==='0000'){
                             this.searchData();
+                            this.getChart();
                             this.$message.success(res.message);
                         }
                     })
@@ -174,19 +187,13 @@
                 this.$ajax.post("/output/chart")
                     .then(res=>{
                         if(res.success==='0000'){
-                            this.chart.sum=res.data.sumMoney;
-                            this.chart.barDate.x=res.data.weekMoenyList.map(v=>{
-                                return {value:v.date}
-                            });
-                            this.chart.barDate.y=res.data.weekMoenyList.map(v=>{
-                                return {value:v.money}
-                            });
-                            this.chart.barPeople.x=res.data.userMoenyList.map(v=>{
+                            this.chart.x=res.data.listUserOutput.map(v=>{
                                 return {value:v.userName}
                             });
-                            this.chart.barPeople.y=res.data.userMoenyList.map(v=>{
-                                return {value:v.money}
+                            this.chart.y=res.data.listUserOutput.map(v=>{
+                                return Object.assign({value:v.outputList,name:v.userName},{type:'line'})
                             });
+                            console.log(this.chart)
                         }
                     })
                     .then(()=>{
@@ -199,18 +206,16 @@
                     color:this.color,
                     tooltip : {
                         trigger: 'item',
+
                     },
                     xAxis: {
                         type: 'category',
-                        data: this.chart.barDate.x
+                        data: this.chart.x
                     },
                     yAxis: {
                         type: 'value'
                     },
-                    series: [{
-                        data: this.chart.barDate.y,
-                        type: 'bar'
-                    }]
+                    series: this.chart.y
                 };
                 chart.setOption(option);
             },

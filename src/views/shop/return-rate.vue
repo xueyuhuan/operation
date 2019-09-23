@@ -40,6 +40,9 @@
                 :title="dialogName"
                 :visible.sync="dialogVisible">
             <el-form ref="dialog" :model="dialog" :rules="dialogRules" label-width="135px">
+                <el-form-item label="时间" prop="date">
+                    <el-date-picker format="yyyy-MM-dd" value-format="yyyy-MM-dd" v-model="dialog.date" type="date"></el-date-picker>
+                </el-form-item>
                 <el-form-item label="店铺" prop="shopId">
                     <el-select v-model="dialog.shopId" placeholder="请选择">
                         <el-option v-for="(i,index) in shopList" :key="index"
@@ -74,10 +77,12 @@
                 dialogName:'',
                 shopList:[],
                 dialog:{
+                    date:null,
                     shopId:null,//店铺
                     returnRate:null,// 退货率
                 },
                 dialogRules:{
+                    date: { required: true, message: '请选择日期', trigger: 'change' },
                     shopId:{ required: true, message: '请选择', trigger: 'change' },//店铺
                     returnRate:{ required: true, message: '请输入', trigger: 'blur' },// 退货率
                 },
@@ -163,6 +168,7 @@
                     .then(res=>{
                         if(res.success==='0000'){
                             this.searchData();
+                            this.getChart();
                             this.$message.success(res.message);
                         }
                     })

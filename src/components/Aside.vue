@@ -4,6 +4,7 @@
         <el-menu router :default-active="$route.path"
                  background-color="#454353" text-color="#ccc" active-text-color="#ffd04b">
             <el-menu-item index="/user/list">用户</el-menu-item>
+            <el-menu-item index="/group/list">小组</el-menu-item>
             <el-menu-item index="/output/list">产出比</el-menu-item>
             <el-menu-item index="/add/list">上新</el-menu-item>
             <el-menu-item index="/shop/list">店铺</el-menu-item>

@@ -169,6 +169,7 @@
                     .then(res=>{
                         if(res.success==='0000'){
                             this.searchData();
+                            this.getChart();
                             this.$message.success(res.message);
                         }
                     })

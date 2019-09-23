@@ -1,5 +1,5 @@
 <template>
-    <div class="user">
+    <div class="return">
         <el-card>
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item to="/">主页</el-breadcrumb-item>
@@ -227,6 +227,7 @@
                     .then(res=>{
                         if(res.success==='0000'){
                             this.searchData();
+                            this.getChart();
                             this.$message.success(res.message);
                         }
                     })
@@ -331,7 +332,7 @@
 </script>
 
 <style lang="scss">
-    .user{
+    .return{
         .chart{
             height: 300px;
             width: 100%;

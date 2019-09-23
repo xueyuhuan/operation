@@ -19,42 +19,46 @@ export default new Router({
         {
             path: '/login',
             name: 'login',
-            component: () => import(/* webpackChunkName: "about" */ './views/Login.vue'),
+            component: () => import(/* webpackChunkName: "login" */ './views/Login.vue'),
             meta:{
                 type:'login',
             }
         },
         {
             path: '/user/list',
-            component: () => import(/* webpackChunkName: "about" */ './views/user/list.vue'),
+            component: () => import('./views/user/list.vue'),
+        },
+        {
+            path: '/group/list',
+            component: () => import('./views/group/list.vue'),
         },
         {
             path: '/output/list',
-            component: () => import(/* webpackChunkName: "about" */ './views/output/list.vue'),
+            component: () => import('./views/output/list.vue'),
         },
         {
             path: '/add/list',
-            component: () => import(/* webpackChunkName: "about" */ './views/add/list.vue'),
+            component: () => import('./views/add/list.vue'),
         },
         {
             path: '/user/password',
-            component: () => import(/* webpackChunkName: "about" */ './views/user/password.vue'),
+            component: () => import('./views/user/password.vue'),
         },
         {
             path: '/shop/list',
-            component: () => import(/* webpackChunkName: "about" */ './views/shop/list.vue'),
+            component: () => import('./views/shop/list.vue'),
         },
         {
             path: '/shop/return/rate',
-            component: () => import(/* webpackChunkName: "about" */ './views/shop/return-rate.vue'),
+            component: () => import('./views/shop/return-rate.vue'),
         },
         {
             path: '/return/list',
-            component: () => import(/* webpackChunkName: "about" */ './views/return/list.vue'),
+            component: () => import('./views/return/list.vue'),
         },
         {
             path: '/money/list',
-            component: () => import(/* webpackChunkName: "about" */ './views/money/list.vue'),
+            component: () => import('./views/money/list.vue'),
         },
     ]
 })
