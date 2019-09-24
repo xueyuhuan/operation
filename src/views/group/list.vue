@@ -104,7 +104,10 @@
         name: "group",
         data() {
             return {
-                sum:null,
+                sum:{
+                    groupName:null,
+                    money:null,
+                },
                 tableMonth:{
                     groupList:[],
                     group:"1",
