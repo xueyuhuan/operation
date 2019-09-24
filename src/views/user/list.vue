@@ -81,6 +81,10 @@
                 <el-button @click="resetForm()">重置</el-button>
             </div>
         </el-dialog>
+        <el-card :body-style="{ 'padding': '0px' }">
+            <header slot="header">综合能力、努力和运气</header>
+            <div id="radar" class="chart"></div>
+        </el-card>
     </div>
 </template>
 
@@ -119,11 +123,20 @@
                     striveScore:{ required: true, message: '请输入', trigger: 'blur' },//努力
                     luckScore:{ required: true, message: '请输入', trigger: 'blur' },//运气
                 },
+                chart:{}
+            }
+        },
+        computed:{
+            color(){
+                return this.$store.state.color;
             }
         },
         created(){
             this.searchData();
             this.getList();
+        },
+        mounted(){
+            this.getChart();
         },
         methods: {
             getList(){
@@ -167,7 +180,7 @@
                             .then(res=>{
                                 if(res.success==='0000'){
                                     this.searchData();
-
+                                    this.getChart();
                                     this.$message.success(res.message);
                                     this.dialogVisible=false;
                                 }
@@ -189,17 +202,69 @@
                         if(res.success==='0000'){
                             this.$message.success(res.message);
                             this.searchData();
+                            this.getChart();
                         }
                     })
             },
             handleClickScore(row){
                 this.dialog={...row};
                 this.update();
-            }
+            },
+            //图表
+            getChart(){
+                this.$ajax.post("/userScore/chart")
+                    .then(res=>{
+                        if(res.success==='0000'){
+                            this.chart.x=res.data.listScoreName.map(v=>{
+                                return {name:v.name,max:v.maxScore}
+                            });
+                            this.chart.y=res.data.listUserNameScore.map(v=>{
+                                return {name:v.name,value:v.listScore}
+                            });
+                        }
+                    })
+                    .then(()=>{
+                        this.drawRadar();
+                    })
+            },
+            drawRadar(){
+                let chart = this.$echarts.init(document.getElementById('radar'));
+                let option = {
+                    color:this.color,
+                    tooltip: {},
+                    legend:{
+                        top:'20',
+                        left:'50',
+                        orient:'vertical'
+                    },
+                    radar: {
+                        shape: 'circle',
+                        name: {
+                            textStyle: {
+                                color: '#666',
+                            }
+                        },
+                        indicator: this.chart.x
+                    },
+                    series: [{
+                        type: 'radar',
+                        areaStyle:{
+                            opacity:0.2
+                        },
+                        data : this.chart.y
+                    }]
+                };
+                chart.setOption(option);
+            },
         }
     }
 </script>
 
 <style lang="scss">
-
+    .user{
+        .chart{
+            height: 300px;
+            width: 100%;
+        }
+    }
 </style>

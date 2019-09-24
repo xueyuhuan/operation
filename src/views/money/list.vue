@@ -55,6 +55,9 @@
                 :title="dialogName"
                 :visible.sync="dialogVisible">
             <el-form ref="dialog" :model="dialog" :rules="dialogRules" label-width="135px">
+                <el-form-item label="时间" prop="date">
+                    <el-date-picker format="yyyy-MM-dd" value-format="yyyy-MM-dd" v-model="dialog.date" type="date"></el-date-picker>
+                </el-form-item>
                 <el-form-item label="销量" prop="money">
                     <el-input v-model="dialog.money"></el-input>
                 </el-form-item>
@@ -82,9 +85,11 @@
                 dialogType:'',
                 dialogName:'',
                 dialog:{
+                    date:null,
                     money:null,// 销售额
                 },
                 dialogRules:{
+                    date: { required: true, message: '请选择日期', trigger: 'blur' },
                     money:{ required: true, message: '请输入', trigger: 'blur' },// 销售额
                 },
                 chart:{
