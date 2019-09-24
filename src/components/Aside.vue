@@ -3,15 +3,24 @@
         <div class="logo"><img src="../assets/logo.png" alt=""/>alpha</div>
         <el-menu router :default-active="$route.path"
                  background-color="#454353" text-color="#ccc" active-text-color="#ffd04b">
-            <el-menu-item index="/">主页</el-menu-item>
-            <el-menu-item index="/user/list">用户</el-menu-item>
-            <el-menu-item index="/group/list">小组</el-menu-item>
-            <el-menu-item index="/output/list">产出比</el-menu-item>
-            <el-menu-item index="/add/list">上新</el-menu-item>
-            <el-menu-item index="/shop/list">店铺</el-menu-item>
-            <el-menu-item index="/shop/return/rate">退货率</el-menu-item>
-            <el-menu-item index="/return/list">退货单</el-menu-item>
-            <el-menu-item index="/money/list">业绩统计</el-menu-item>
+            <el-menu-item index="/">
+                <i class="fas fa-fw fa-home"></i>&nbsp;&nbsp;主页</el-menu-item>
+            <el-menu-item index="/user/list">
+                <i class="fas fa-fw fa-user-friends"></i>&nbsp;&nbsp;用户</el-menu-item>
+            <el-menu-item index="/group/list">
+                <i class="fas fa-fw fa-users"></i>&nbsp;&nbsp;小组</el-menu-item>
+            <el-menu-item index="/output/list">
+                <i class="fas fa-fw fa-chart-line"></i>&nbsp;&nbsp;产出比</el-menu-item>
+            <el-menu-item index="/add/list">
+                <i class="fas fa-fw fa-history"></i>&nbsp;&nbsp;上新</el-menu-item>
+            <el-menu-item index="/shop/list">
+                <i class="fas fa-fw fa-store-alt"></i>&nbsp;&nbsp;店铺</el-menu-item>
+            <el-menu-item index="/shop/return/rate">
+                <i class="fas fa-fw fa-truck-loading"></i>&nbsp;&nbsp;退货率</el-menu-item>
+            <el-menu-item index="/return/list">
+                <i class="fas fa-fw fa-file-invoice"></i>&nbsp;&nbsp;退货单</el-menu-item>
+            <el-menu-item index="/money/list">
+                <i class="fas fa-fw fa-money-check-alt"></i>&nbsp;&nbsp;业绩统计</el-menu-item>
         </el-menu>
     </div>
 </template>
@@ -48,7 +57,7 @@
         .el-menu{
             flex: 1;
             border-right: none;
-            i.fa-fw{
+            i.fa-fa-fw{
                 color: #ccc;
                 margin-right: 10px;
             }

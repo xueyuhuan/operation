@@ -31,7 +31,7 @@ instance.interceptors.request.use(
             });
             store.commit('setData',{
                 name:'user',
-                value:qs.parse(localStorage.getItem('token'))
+                value:JSON.parse(localStorage.getItem('user'))
             });
             config.headers.Authorization= localStorage.getItem('token');
         }
