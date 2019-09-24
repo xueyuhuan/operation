@@ -42,11 +42,11 @@
             </el-col>
             <el-col :span="16">
                 <el-card :body-style="{ 'padding': '0px' }">
-                    <header slot="header">2019年运营个体累计</header>
+                    <header slot="header">2019年运营个体累计（单位：＄）</header>
                     <div id="bar-people" class="chart"></div>
                 </el-card>
                 <el-card :body-style="{ 'padding': '0px' }">
-                    <header slot="header">2019年运营数据</header>
+                    <header slot="header">2019年运营数据（单位：＄）</header>
                     <div id="bar-date" class="chart"></div>
                 </el-card>
             </el-col>

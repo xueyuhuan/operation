@@ -110,7 +110,7 @@
                 },
                 tableMonth:{
                     groupList:[],
-                    group:"1",
+                    group:"8",
                     table:[],//小组月份销量表格
                 },
                 tableChampion:{
@@ -159,7 +159,7 @@
         created(){
             this.$ajax.post('/group/presentDateGroupChampion')
                 .then(res=>{
-                    if(res.success==='0000') this.sum=res.data;
+                    if(res.success==='0000'&&res.data!==null) this.sum=res.data;
                 });
             this.searchDataMonth();
             this.searchDataChampion();
