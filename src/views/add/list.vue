@@ -18,7 +18,7 @@
                     </el-button-group>
                     <el-table border stripe :data="tableData">
                         <el-table-column label="时间" prop="date" sortable></el-table-column>
-                        <el-table-column label="操作人" prop="userName"></el-table-column>
+                        <el-table-column label="店主" prop="userName"></el-table-column>
                         <el-table-column label="上新数" prop="updateNum"></el-table-column>
                         <el-table-column fixed="right" label="操作" width="84px">
                             <template slot-scope="scope">

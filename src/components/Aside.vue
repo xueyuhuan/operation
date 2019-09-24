@@ -1,6 +1,6 @@
 <template>
     <div class="ve-aside">
-        <div class="logo"><img src="../assets/logo.png" alt=""/>alpha</div>
+        <div class="logo"><img src="../assets/logo.png" alt=""/>Beta</div>
         <el-menu router :default-active="$route.path"
                  background-color="#454353" text-color="#ccc" active-text-color="#ffd04b">
             <el-menu-item index="/">

@@ -49,7 +49,7 @@
                             :total="tableChampion.total">
                     </el-pagination>
                 </el-tab-pane>
-                <el-tab-pane label="小组管理" name="3">
+                <el-tab-pane label="小组管理" name="3" v-if="user.role.name==='ROLE_ADMIN'">
                     <el-button-group>
                         <el-button type="primary" icon="fas fa-plus" @click="add()">&nbsp;新增</el-button>
                     </el-button-group>
@@ -149,6 +149,9 @@
             }
         },
         computed:{
+            user(){
+                return this.$store.state.user;
+            },
             color(){
                 return this.$store.state.color;
             }

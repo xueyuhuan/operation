@@ -16,7 +16,7 @@
                         <el-button type="primary" icon="fas fa-plus" @click="add()">&nbsp;新增</el-button>
                     </el-button-group>
                     <el-table border stripe :data="tableData">
-                        <el-table-column label="操作人" prop="userName"></el-table-column>
+                        <el-table-column label="店主" prop="userName"></el-table-column>
                         <el-table-column label="时间" prop="date" sortable></el-table-column>
                         <el-table-column label="销量" prop="money">
                             <template slot-scope="scope">

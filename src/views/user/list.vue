@@ -6,7 +6,7 @@
                 <el-breadcrumb-item>用户</el-breadcrumb-item>
             </el-breadcrumb>
         </el-card>
-        <el-card>
+        <el-card v-if="user.role.name==='ROLE_ADMIN'">
             <el-button-group>
                 <el-button type="primary" icon="fas fa-plus" @click="add()">&nbsp;新增</el-button>
             </el-button-group>
@@ -127,6 +127,9 @@
             }
         },
         computed:{
+            user(){
+                return this.$store.state.user;
+            },
             color(){
                 return this.$store.state.color;
             }
